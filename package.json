@@ -1,0 +1,46 @@
+{
+  "name": "@imgly/camera-react-native",
+  "version": "1.40.0",
+  "description": "Camera SDK for React Native - provide a versatile video camera to your users on iOS and Android.",
+  "react-native": "index.js",
+  "source": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "src",
+    "android",
+    "ios",
+    "IMGLYCameraModule.podspec",
+    "index.d.ts",
+    "index.js",
+    "README.md",
+    "LICENSE.md",
+    "!android/build",
+    "!ios/build",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__"
+  ],
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "camera",
+    "imgly",
+    "cesdk"
+  ],
+  "author": "IMG.LY GmbH",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "homepage": "https://img.ly",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "codegenConfig": {
+    "name": "IMGLYCameraModuleSpec",
+    "type": "modules",
+    "jsSrcsDir": "./",
+    "android": {
+      "javaPackageName": "ly.img.camera.reactnative.module"
+    }
+  }
+}
