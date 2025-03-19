@@ -1,4 +1,4 @@
-# Camera SDK
+# React Native Camera SDK
 
 The `@imgly/camera-react-native` module contains the prebuilt iOS and Android Camera SDK powered by the _Creative Engine_ - made accessible for React Native.
 The Creative Engine enables you to build any design editing UI, automation and creative workflow.
