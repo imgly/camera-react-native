@@ -77,14 +77,16 @@ class IMGLYCameraModule(
             promise?.reject(IMGLYConstants.ERROR_MISSING_ARGUMENTS, IMGLYConstants.ERROR_MISSING_ARGUMENTS_MESSAGE)
         } else {
             val settingsHashMap = settings.toHashMap()
-            val cameraSettings =
-                kotlin
-                    .runCatching {
-                        CameraSettings.createFromMap(settingsHashMap)
-                    }.getOrElse {
-                        promise?.reject(IMGLYConstants.ERROR_PARSING, IMGLYConstants.ERROR_PARSING_MESSAGE, it)
-                        return
-                    }
+            val cameraSettings = kotlin.runCatching {
+                CameraSettings.createFromMap(settingsHashMap)
+            }.getOrElse {
+                promise?.reject(
+                    IMGLYConstants.ERROR_PARSING,
+                    IMGLYConstants.ERROR_PARSING_MESSAGE,
+                    it,
+                )
+                return
+            }
             val metadataHashMap = metadata?.toHashMap()
 
             openCamera(cameraSettings, video, metadataHashMap) {
@@ -128,13 +130,10 @@ class IMGLYCameraModule(
         val engineConfiguration =
             EngineConfiguration(license = settings.license ?: "", userId = settings.userId)
         val input: CaptureVideo.Input =
-            configurationClosure?.invoke(metadata) ?: CaptureVideo.Input(
-                engineConfiguration,
-            )
-        val intent =
-            Intent(activity, CameraActivity::class.java).apply {
-                putExtra(INTENT_KEY_CAMERA_INPUT, input)
-            }
+            configurationClosure?.invoke(metadata) ?: CaptureVideo.Input(engineConfiguration)
+        val intent = Intent(activity, CameraActivity::class.java).apply {
+            putExtra(INTENT_KEY_CAMERA_INPUT, input)
+        }
         activity.startActivityForResult(intent, requestCode)
     }
 

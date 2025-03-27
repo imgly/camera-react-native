@@ -39,10 +39,9 @@ data class CameraRecording(
         override fun newArray(size: Int): Array<CameraResult?> = arrayOfNulls(size)
     }
 
-    fun toMap(): Map<String, Any?> =
-        mapOf(
-            "recordings" to recordings?.map { it.toMap() },
-        )
+    fun toMap(): Map<String, Any?> = mapOf(
+        "recordings" to recordings?.map { it.toMap() },
+    )
 }
 
 /**
@@ -110,9 +109,8 @@ data class CameraResult(
         }
     }
 
-    fun toMap(): Map<String, Any?> =
-        mapOf(
-            "recording" to recording?.toMap(),
-            "metadata" to metadata,
-        )
+    fun toMap(): Map<String, Any?> = mapOf(
+        "recording" to recording?.toMap(),
+        "metadata" to metadata,
+    )
 }

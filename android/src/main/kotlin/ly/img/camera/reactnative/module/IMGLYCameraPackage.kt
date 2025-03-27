@@ -10,26 +10,24 @@ class IMGLYCameraPackage : TurboReactPackage() {
     override fun getModule(
         name: String,
         reactContext: ReactApplicationContext,
-    ): NativeModule? =
-        if (name == IMGLYCameraModule.NAME) {
-            IMGLYCameraModule(reactContext)
-        } else {
-            null
-        }
+    ): NativeModule? = if (name == IMGLYCameraModule.NAME) {
+        IMGLYCameraModule(reactContext)
+    } else {
+        null
+    }
 
-    override fun getReactModuleInfoProvider() =
-        ReactModuleInfoProvider {
-            mapOf(
-                IMGLYCameraModule.NAME to
-                    ReactModuleInfo(
-                        IMGLYCameraModule.NAME,
-                        IMGLYCameraModule.NAME,
-                        false, // canOverrideExistingModule
-                        false, // needsEagerInit
-                        true, // hasConstants
-                        false, // isCxxModule
-                        true, // isTurboModule
-                    ),
-            )
-        }
+    override fun getReactModuleInfoProvider() = ReactModuleInfoProvider {
+        mapOf(
+            IMGLYCameraModule.NAME to
+                ReactModuleInfo(
+                    IMGLYCameraModule.NAME,
+                    IMGLYCameraModule.NAME,
+                    false, // canOverrideExistingModule
+                    false, // needsEagerInit
+                    true, // hasConstants
+                    false, // isCxxModule
+                    true, // isTurboModule
+                ),
+        )
+    }
 }

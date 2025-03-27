@@ -41,11 +41,10 @@ data class Recording(
         override fun newArray(size: Int): Array<Recording?> = arrayOfNulls(size)
     }
 
-    fun toMap(): Map<String, Any?> =
-        mapOf(
-            "videos" to videos.map { it.toMap() },
-            "duration" to duration.inWholeMilliseconds.toDouble(),
-        )
+    fun toMap(): Map<String, Any?> = mapOf(
+        "videos" to videos.map { it.toMap() },
+        "duration" to duration.inWholeMilliseconds.toDouble(),
+    )
 }
 
 /**
@@ -76,8 +75,7 @@ data class Video(
         override fun newArray(size: Int): Array<Video?> = arrayOfNulls(size)
     }
 
-    fun toMap(): Map<String, Any?> =
-        mapOf(
-            "uri" to uri.toString(),
-        )
+    fun toMap(): Map<String, Any?> = mapOf(
+        "uri" to uri.toString(),
+    )
 }
