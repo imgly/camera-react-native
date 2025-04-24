@@ -26,12 +26,8 @@ RCT_EXPORT_MODULE(IMGLYCamera)
 }
 
 #else
-RCT_EXPORT_METHOD(openCamera
-                  : (nonnull NSDictionary*)settings video
-                  : (nullable NSString*)video metadata
-                  : (NSDictionary*)metadata resolve
-                  : (RCTPromiseResolveBlock)resolve reject
-                  : (RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(openCamera : (nonnull NSDictionary*)settings video : (nullable NSString*)video metadata : (
+  NSDictionary*)metadata resolve : (RCTPromiseResolveBlock)resolve reject : (RCTPromiseRejectBlock)reject) {
   [self open:settings video:video metadata:metadata resolve:resolve reject:reject];
 }
 #endif
