@@ -1,6 +1,6 @@
 {
   "name": "@imgly/camera-react-native",
-  "version": "1.53.0",
+  "version": "1.54.0",
   "description": "Camera SDK for React Native - provide a versatile video camera to your users on iOS and Android.",
   "react-native": "index.js",
   "source": "index.js",
