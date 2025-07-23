@@ -18,7 +18,7 @@ import ly.img.camera.reactnative.module.model.CameraResult
 import ly.img.camera.reactnative.module.model.CameraSettings
 
 /** A closure to specify a [CaptureVideo.Input] the camera session based on given *metadata*. */
-typealias CameraInputClosure = (metadata: Map<String, Any>?) -> CaptureVideo.Input
+typealias CameraInputClosure = (metadata: Map<String, Any?>?) -> CaptureVideo.Input
 
 /** A closure to modify the [CameraResult] before being send to the JS layer. */
 typealias CameraResultClosure = (result: CameraResult?) -> CameraResult?
@@ -121,7 +121,7 @@ class IMGLYCameraModule(
     private fun openCamera(
         settings: CameraSettings,
         video: String?,
-        metadata: Map<String, Any>?,
+        metadata: Map<String, Any?>?,
         completion: ((Result<CameraResult?>) -> Unit),
     ) {
         val activity = this.currentActivity ?: return

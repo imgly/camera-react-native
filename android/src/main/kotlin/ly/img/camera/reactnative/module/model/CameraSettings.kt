@@ -37,7 +37,7 @@ data class CameraSettings(
 
         override fun newArray(size: Int): Array<CameraSettings?> = arrayOfNulls(size)
 
-        fun createFromMap(map: Map<String, Any>): CameraSettings {
+        fun createFromMap(map: Map<String, Any?>): CameraSettings {
             val license = map["license"] as? String ?: throw (Exception("Missing value for key 'license.'"))
             val userId = map["userId"] as? String
             return CameraSettings(license, userId)
