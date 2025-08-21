@@ -10,7 +10,7 @@ import IMGLYCamera
   ///   - recordings: The recorded `IMGLYCamera.Recording` videos.
   public convenience init(recordings: [IMGLYCamera.Recording]) {
     self.init(
-      recordings: recordings.compactMap { Recording(recording: $0) }
+      recordings: recordings.compactMap { Recording(recording: $0) },
     )
   }
 
@@ -43,7 +43,7 @@ import IMGLYCamera
   public convenience init(video: IMGLYCamera.Recording, recordings: [IMGLYCamera.Recording]) {
     self.init(
       video: Recording(recording: video),
-      recordings: recordings.compactMap { Recording(recording: $0) }
+      recordings: recordings.compactMap { Recording(recording: $0) },
     )
   }
 

@@ -29,7 +29,7 @@ import UIKit
     settings: CameraSettings,
     video: String?,
     metadata: [String: Any]?,
-    completion: @escaping (_ result: CameraResult?, _ error: NSError?) -> Void
+    completion: @escaping (_ result: CameraResult?, _ error: NSError?) -> Void,
   ) {
     var videoURL: URL?
     if let video {

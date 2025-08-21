@@ -84,7 +84,7 @@ extension CameraBuilder {
         Camera(
           engineSettings(for: settings),
           mode: .reaction(.horizontal, video: url, positionsSwapped: false),
-          onDismiss: onDismiss
+          onDismiss: onDismiss,
         )
       } else {
         Camera(engineSettings(for: settings), onDismiss: onDismiss)
