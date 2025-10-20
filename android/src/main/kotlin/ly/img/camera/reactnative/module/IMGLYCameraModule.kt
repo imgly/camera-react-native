@@ -142,7 +142,7 @@ class IMGLYCameraModule(
 
     /** Handles the activity result. */
     override fun onActivityResult(
-        activity: Activity?,
+        activity: Activity,
         requestCode: Int,
         resultCode: Int,
         intent: Intent?,
@@ -170,7 +170,7 @@ class IMGLYCameraModule(
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {}
+    override fun onNewIntent(intent: Intent) {}
 
     operator fun WritableMap.set(
         id: String,
