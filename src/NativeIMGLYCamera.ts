@@ -75,8 +75,8 @@ interface CameraResult {
 
 /** A class containing all necessary settings to setup the camera. */
 export interface CameraSettings {
-  /** The license of the editor. */
-  license: string;
+  /** The license of the editor. Pass `null` to run the SDK in evaluation mode with a watermark. */
+  license?: string;
 
   /**
    * Unique ID tied to your application's user.

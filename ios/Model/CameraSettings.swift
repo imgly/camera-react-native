@@ -1,7 +1,7 @@
 /// A struct containing all necessary settings to setup the camera.
 @objc @objcMembers public class CameraSettings: NSObject, Codable {
-  /// The license key.
-  public let license: String
+  /// The license key. Pass `nil` to run the SDK in evaluation mode with a watermark.
+  public let license: String?
 
   /// The id of the current user.
   public let userId: String?

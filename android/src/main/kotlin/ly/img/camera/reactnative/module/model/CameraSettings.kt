@@ -6,11 +6,11 @@ import android.os.Parcelable
 /**
  * A class containing all necessary information to configure the camera.
  *
- * @property license The license key.
+ * @property license The license key. Pass `null` to run the SDK in evaluation mode with a watermark.
  * @property userId The id of the current user.
  */
 data class CameraSettings(
-    val license: String,
+    val license: String? = null,
     val userId: String?,
 ) : Parcelable {
     /**
@@ -18,7 +18,7 @@ data class CameraSettings(
      * @param parcel The [Parcel].
      */
     constructor(parcel: Parcel) : this(
-        parcel.readString() ?: throw (Exception("Missing value for key 'license.'")),
+        parcel.readString(),
         parcel.readString(),
     )
 
@@ -38,7 +38,7 @@ data class CameraSettings(
         override fun newArray(size: Int): Array<CameraSettings?> = arrayOfNulls(size)
 
         fun createFromMap(map: Map<String, Any?>): CameraSettings {
-            val license = map["license"] as? String ?: throw (Exception("Missing value for key 'license.'"))
+            val license = map["license"] as? String
             val userId = map["userId"] as? String
             return CameraSettings(license, userId)
         }
