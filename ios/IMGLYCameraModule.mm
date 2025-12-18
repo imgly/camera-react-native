@@ -11,9 +11,10 @@ RCT_EXPORT_MODULE(IMGLYCamera)
           metadata:(NSDictionary*)metadata
            resolve:(RCTPromiseResolveBlock)resolve
             reject:(RCTPromiseRejectBlock)reject {
-  NSMutableDictionary* convertedSettings = [@{
-    @"license" : settings.license(),
-  } mutableCopy];
+  NSMutableDictionary* convertedSettings = [NSMutableDictionary dictionary];
+  if (settings.license() != nil) {
+    convertedSettings[@"license"] = settings.license();
+  }
   if (settings.userId() != nil) {
     convertedSettings[@"userId"] = settings.userId();
   }
