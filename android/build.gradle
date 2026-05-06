@@ -141,6 +141,6 @@ repositories {
 }
 
 dependencies {
-    api "ly.img:camera:1.73.0"
+    api "ly.img:camera:1.73.1"
     implementation "com.facebook.react:react-native"
 }
