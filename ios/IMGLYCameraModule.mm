@@ -6,7 +6,7 @@
 RCT_EXPORT_MODULE(IMGLYCamera)
 
 #ifdef RCT_NEW_ARCH_ENABLED
-- (void)openCamera:(JS::NativeIMGLYCamera::CameraSettings&)settings
+- (void)openCamera:(JS::NativeIMGLYCamera::SpecCameraSettings&)settings
              video:(NSString*)video
           metadata:(NSDictionary*)metadata
            resolve:(RCTPromiseResolveBlock)resolve
@@ -17,6 +17,20 @@ RCT_EXPORT_MODULE(IMGLYCamera)
   }
   if (settings.userId() != nil) {
     convertedSettings[@"userId"] = settings.userId();
+  }
+  auto configuration = settings.configuration();
+  if (configuration.has_value()) {
+    NSMutableDictionary* convertedConfiguration = [NSMutableDictionary dictionary];
+    if (configuration->captureType() != nil) {
+      convertedConfiguration[@"captureType"] = configuration->captureType();
+    }
+    if (configuration->captureCount() != nil) {
+      convertedConfiguration[@"captureCount"] = configuration->captureCount();
+    }
+    if (configuration->photoClipDuration().has_value()) {
+      convertedConfiguration[@"photoClipDuration"] = @(*configuration->photoClipDuration());
+    }
+    convertedSettings[@"configuration"] = convertedConfiguration;
   }
   [self open:convertedSettings video:video metadata:metadata resolve:resolve reject:reject];
 }

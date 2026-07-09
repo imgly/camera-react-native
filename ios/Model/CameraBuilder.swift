@@ -50,7 +50,36 @@ extension CameraBuilder {
   /// - Parameter settings: The `CameraSettings`.
   /// - Returns: The derived `EngineSettings`.
   private static func engineSettings(for settings: CameraSettings) -> EngineSettings {
-    EngineSettings(license: settings.license, userID: settings.userId)
+    // Identify this engine as React-Native-hosted so v4 licenses scoped to
+    // `host: react-native` validate. Hardcoded (not customer-configurable).
+    EngineSettings(license: settings.license, userID: settings.userId, host: "react-native")
+  }
+
+  /// Builds a native `IMGLYCamera.CameraConfiguration` from the bridged config dict.
+  /// Missing or unknown fields fall back to the native defaults.
+  private static func nativeConfiguration(
+    from configuration: CameraConfiguration?,
+  ) -> IMGLYCamera.CameraConfiguration {
+    IMGLYCamera.CameraConfiguration(
+      captureType: nativeCaptureType(configuration?.captureType),
+      captureCount: nativeCaptureCount(configuration?.captureCount),
+      photoClipDuration: configuration?.photoClipDuration ?? 5,
+    )
+  }
+
+  private static func nativeCaptureType(_ raw: String?) -> IMGLYCamera.CaptureType {
+    switch raw {
+    case "photo": .photo
+    case "mixed": .mixed
+    default: .video
+    }
+  }
+
+  private static func nativeCaptureCount(_ raw: String?) -> IMGLYCamera.CaptureCount {
+    switch raw {
+    case "single": .single
+    default: .multi
+    }
   }
 
   /// A modal camera implementation.
@@ -58,21 +87,23 @@ extension CameraBuilder {
     private let settings: CameraSettings
     private let result: CameraBuilderResult
     private let url: URL?
+    private let config: IMGLYCamera.CameraConfiguration
     private let onDismiss: (Result<IMGLYCamera.CameraResult, CameraError>) -> Void
 
     public init(settings: CameraSettings, result: @escaping CameraBuilderResult, url: URL? = nil) {
       self.settings = settings
       self.result = result
       self.url = url
+      config = CameraBuilder.nativeConfiguration(from: settings.configuration)
 
       onDismiss = { cameraResult in
         switch cameraResult {
         case let .success(.reaction(video: recording, reaction: reaction)):
           let reaction = CameraReaction(video: recording, recordings: reaction)
           result(.success(CameraResult(reaction: reaction)))
-        case let .success(.recording(recording)):
-          let recording = CameraRecording(recordings: recording)
-          result(.success(CameraResult(recording: recording)))
+        case let .success(.capture(captures)):
+          let capture = CameraCapture(captures: captures)
+          result(.success(CameraResult(capture: capture)))
         case let .failure(error):
           result(.failure(error))
         }
@@ -83,11 +114,12 @@ extension CameraBuilder {
       if let url {
         Camera(
           engineSettings(for: settings),
+          config: config,
           mode: .reaction(.horizontal, video: url, positionsSwapped: false),
           onDismiss: onDismiss,
         )
       } else {
-        Camera(engineSettings(for: settings), onDismiss: onDismiss)
+        Camera(engineSettings(for: settings), config: config, onDismiss: onDismiss)
       }
     }
   }
