@@ -11,14 +11,14 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableArray
 import com.facebook.react.bridge.WritableMap
 import ly.img.camera.CameraActivity
-import ly.img.camera.core.CaptureVideo
-import ly.img.camera.core.CaptureVideo.Companion.INTENT_KEY_CAMERA_INPUT
+import ly.img.camera.core.CaptureMedia
+import ly.img.camera.core.CaptureMedia.Companion.INTENT_KEY_CAMERA_INPUT
 import ly.img.camera.core.EngineConfiguration
 import ly.img.camera.reactnative.module.model.CameraResult
 import ly.img.camera.reactnative.module.model.CameraSettings
 
-/** A closure to specify a [CaptureVideo.Input] the camera session based on given *metadata*. */
-typealias CameraInputClosure = (metadata: Map<String, Any?>?) -> CaptureVideo.Input
+/** A closure to specify a [CaptureMedia.Input] the camera session based on given *metadata*. */
+typealias CameraInputClosure = (metadata: Map<String, Any?>?) -> CaptureMedia.Input
 
 /** A closure to modify the [CameraResult] before being send to the JS layer. */
 typealias CameraResultClosure = (result: CameraResult?) -> CameraResult?
@@ -29,7 +29,7 @@ class IMGLYCameraModule(
 ) : IMGLYCameraModuleSpec(reactContext),
     ActivityEventListener {
     companion object {
-        /** A closure to specify a [CaptureVideo.Input] based on given *metadata*. */
+        /** A closure to specify a [CaptureMedia.Input] based on given *metadata*. */
         var configurationClosure: CameraInputClosure? = null
 
         /** A closure to modify the [CameraResult] before being send to the JS layer. */
@@ -128,9 +128,11 @@ class IMGLYCameraModule(
         this.completion = completion
 
         val engineConfiguration =
-            EngineConfiguration(license = settings.license ?: "", userId = settings.userId)
-        val input: CaptureVideo.Input =
-            configurationClosure?.invoke(metadata) ?: CaptureVideo.Input(engineConfiguration)
+            EngineConfiguration(license = settings.license ?: "", userId = settings.userId, host = "react-native")
+        val cameraConfiguration =
+            settings.configuration?.toNative() ?: ly.img.camera.core.CameraConfiguration()
+        val input: CaptureMedia.Input =
+            configurationClosure?.invoke(metadata) ?: CaptureMedia.Input(engineConfiguration, cameraConfiguration)
         val intent = Intent(activity, CameraActivity::class.java).apply {
             putExtra(INTENT_KEY_CAMERA_INPUT, input)
         }
@@ -149,9 +151,9 @@ class IMGLYCameraModule(
     ) {
         if (requestCode == this.requestCode) {
             if (resultCode == Activity.RESULT_OK) {
-                val result = intent?.getParcelableExtra<ly.img.camera.core.CameraResult>(CaptureVideo.INTENT_KEY_CAMERA_RESULT)
+                val result = intent?.getParcelableExtra<ly.img.camera.core.CameraResult>(CaptureMedia.INTENT_KEY_CAMERA_RESULT)
                 when (result) {
-                    is ly.img.camera.core.CameraResult.Record -> {
+                    is ly.img.camera.core.CameraResult.Captures -> {
                         var modifiedResult: CameraResult? = CameraResult(result)
                         val closure = resultClosure
                         if (closure != null) {
