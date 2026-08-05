@@ -16,7 +16,7 @@ public enum CameraBuilder {
     _ settings: CameraSettings,
     _ url: URL?,
     _ metadata: [String: Any]?,
-    _ result: @escaping CameraBuilderResult
+    _ result: @escaping CameraBuilderResult,
   ) -> UIViewController
 
   /// The default camera implementation.
@@ -36,11 +36,10 @@ public enum CameraBuilder {
     _ settings: CameraSettings,
     _ url: URL?,
     _ metadata: [String: Any]?,
-    _ result: @escaping CameraBuilderResult
+    _ result: @escaping CameraBuilderResult,
   ) -> some View) -> Builder {
     { settings, preset, metadata, result in
-      let hostingController = UIHostingController(rootView: contentProvider(settings, preset, metadata, result))
-      return hostingController
+      UIHostingController(rootView: contentProvider(settings, preset, metadata, result))
     }
   }
 }
