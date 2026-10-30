@@ -1,3 +1,5 @@
+import CoreGraphics
+import Foundation
 import IMGLYCamera
 
 /// The result type for a camera reaction session.

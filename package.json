@@ -1,6 +1,6 @@
 {
   "name": "@imgly/camera-react-native",
-  "version": "1.79.0",
+  "version": "1.85.1",
   "description": "Camera SDK for React Native - provide a versatile video camera to your users on iOS and Android.",
   "react-native": "index.js",
   "source": "index.js",
@@ -45,5 +45,8 @@
     "android": {
       "javaPackageName": "ly.img.camera.reactnative.module"
     }
+  },
+  "swiftpmConfig": {
+    "name": "CameraReactNative"
   }
 }
