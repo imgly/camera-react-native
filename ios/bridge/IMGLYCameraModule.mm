@@ -1,5 +1,5 @@
 #import "IMGLYCameraModule.h"
-#import "IMGLYCameraModule/IMGLYCameraModule-Swift.h"
+#import "IMGLYCameraModuleSupport.h"
 
 @implementation IMGLYCameraModule
 
@@ -52,21 +52,12 @@ RCT_EXPORT_METHOD(openCamera : (nonnull NSDictionary*)settings video : (nullable
     metadata:(NSDictionary*)metadata
      resolve:(RCTPromiseResolveBlock)resolve
       reject:(RCTPromiseRejectBlock)reject {
-  CameraSettings* cameraSettings = [CameraSettings fromDictionary:settings];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [[IMGLYCameraModuleSwiftAdapter shared]
-      openCameraWithSettings:cameraSettings
-                       video:video
-                    metadata:metadata
-                  completion:^(CameraResult* _Nullable result, NSError* _Nullable error) {
-                    if (result != nil) {
-                      resolve([result toDictionary]);
-                    } else if (error != nil) {
-                      reject(@"E_RECORDING_FAILED", @"The recording failed due to: ", error);
-                    } else {
-                      resolve([NSNull null]);
-                    }
-                  }];
-  });
+  id<IMGLYCameraModuleImplementation> implementation = IMGLYCameraModuleImplementationProvider.implementation;
+  if (implementation == nil) {
+    reject(@"E_IMPLEMENTATION_MISSING",
+           @"The Swift implementation of the IMGLYCamera module was not linked into the app.", nil);
+    return;
+  }
+  [implementation openCameraWithSettings:settings video:video metadata:metadata resolve:resolve reject:reject];
 }
 @end
